@@ -1,30 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 const Product = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  // Token value taken from the local storage
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchProducts = async () => {
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
       try {
-        const response = await axios.get("https://products-backend-slgn.onrender.com/products", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "https://products-backend-slgn.onrender.com/products"
+        );
         setProducts(response.data);
         setLoading(false);
       } catch (err) {
@@ -34,14 +22,14 @@ const Product = ({ onAddToCart }) => {
     };
 
     fetchProducts();
-  }, [token, navigate]);
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div className="product-list">
-      {products.map((product,key) => (
+      {products.map((product, key) => (
         <Card key={key} style={{ margin: "10px" }}>
           <Card.Img
             variant="top"
@@ -60,7 +48,7 @@ const Product = ({ onAddToCart }) => {
             <Button
               variant="primary"
               className="mt-2"
-              onClick={() => onAddToCart(product)} // Call the function passed from App.js
+              onClick={() => onAddToCart(product)}
             >
               Add to Cart
             </Button>
