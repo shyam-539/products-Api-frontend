@@ -11,7 +11,7 @@ const Product = ({ onAddToCart }) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://products-backend-slgn.onrender.com/products"
+          "https://products-api-backend.onrender.com/products" // ✅ Corrected URL
         );
         setProducts(response.data);
         setLoading(false);
@@ -37,7 +37,7 @@ const Product = ({ onAddToCart }) => {
             src={product.url}
           />
           <Card.Body>
-            <Card.Title>{product.title}</Card.Title>
+            <Card.Title>{product.name}</Card.Title> {/* ✅ Fixed property */}
             <Card.Text>{product.description}</Card.Text>
             <Card.Text className="text-success">
               Rating: {product.rating}
